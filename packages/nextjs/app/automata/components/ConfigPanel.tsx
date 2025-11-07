@@ -1,0 +1,118 @@
+"use client";
+
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useShallow } from "zustand/react/shallow";
+import { useAutomataStore } from "../store";
+
+const ConfigPanel = () => {
+  const { nodes, selectedNodeId, setSelectedNodeId } = useAutomataStore(
+    useShallow((state) => ({
+      nodes: state.nodes,
+      selectedNodeId: state.selectedNodeId,
+      setSelectedNodeId: state.setSelectedNodeId,
+    }))
+  );
+
+  // Find the selected node from the nodes array
+  const selectedNode = nodes.find(node => node.id === selectedNodeId);
+
+  // Don't render the panel if no node is selected
+  if (!selectedNode) {
+    return null;
+  }
+
+  // Render the configuration UI based on the node type
+  const renderConfig = () => {
+    switch (selectedNode.type) {
+      case "onchain-event":
+        return (
+          <div>
+            <h3 className="text-lg font-bold mb-2">On-Chain Event</h3>
+            <p className="mb-4">Configure the contract and event to watch.</p>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Contract Address</span>
+              </label>
+              <input type="text" placeholder="0x..." className="input input-bordered" />
+            </div>
+            <div className="form-control mt-2">
+              <label className="label">
+                <span className="label-text">Event to Watch</span>
+              </label>
+              <select className="select select-bordered" defaultValue="">
+                <option value="" disabled>
+                  Select event
+                </option>
+                <option>Transfer</option>
+                <option>Approval</option>
+              </select>
+            </div>
+          </div>
+        );
+      case "ai-decision":
+        return (
+          <div>
+            <h3 className="text-lg font-bold mb-2">AI Decision</h3>
+            <p className="mb-4">Configure the AI prompt.</p>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Prompt</span>
+              </label>
+              <textarea
+                className="textarea textarea-bordered h-24 rounded-lg"
+                placeholder="e.g., Is this address a new user?"
+              ></textarea>
+            </div>
+          </div>
+        );
+      case "send-usdt":
+        return (
+          <div>
+            <h3 className="text-lg font-bold mb-2">Send USDT</h3>
+            <p className="mb-4">Configure the recipient and amount.</p>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Recipient</span>
+              </label>
+              <input type="text" placeholder="e.g., {{Trigger.data.to}}" className="input input-bordered" />
+            </div>
+            <div className="form-control mt-2">
+              <label className="label">
+                <span className="label-text">Amount</span>
+              </label>
+              <input type="number" placeholder="10" className="input input-bordered" />
+            </div>
+          </div>
+        );
+      case "mint-nft":
+        return (
+          <div>
+            <h3 className="text-lg font-bold mb-2">Mint NFT</h3>
+            <p className="mb-4">Configure the NFT recipient.</p>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Recipient</span>
+              </label>
+              <input type="text" placeholder="e.g., {{Trigger.data.to}}" className="input input-bordered" />
+            </div>
+          </div>
+        );
+      default:
+        return <p>Unknown node type</p>;
+    }
+  };
+
+  return (
+    <div className="w-96 h-full bg-base-200 p-4 shadow-lg z-10 overflow-y-auto">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold">Configuration</h2>
+        <button className="btn btn-ghost btn-sm btn-circle" onClick={() => setSelectedNodeId(null)}>
+          <XMarkIcon className="h-6 w-6" />
+        </button>
+      </div>
+      {renderConfig()}
+    </div>
+  );
+};
+
+export default ConfigPanel;

@@ -1,0 +1,108 @@
+"use client";
+
+import { useState, useCallback, useRef, DragEvent } from "react";
+import {
+  ReactFlow,
+  addEdge,
+  Controls,
+  MiniMap,
+  Background,
+  BackgroundVariant,
+  useReactFlow,
+  Node,
+} from "@xyflow/react";
+import { useShallow } from "zustand/react/shallow";
+
+// Import the custom node components
+import OnChainEventNode from "./nodes/OnChainEventNode";
+import AiDecisionNode from "./nodes/AiDecisionNode";
+import SendUsdtNode from "./nodes/SendUsdtNode";
+import MintNftNode from "./nodes/MintNftNode";
+
+// Import the Zustand store
+import { useAutomataStore } from "../store";
+
+// Register the custom node types
+// This tells React Flow to use our components for these types
+const nodeTypes = {
+  "onchain-event": OnChainEventNode,
+  "ai-decision": AiDecisionNode,
+  "send-usdt": SendUsdtNode,
+  "mint-nft": MintNftNode,
+};
+
+const Canvas = () => {
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNode, setSelectedNodeId } =
+    useAutomataStore(
+      useShallow((state) => ({
+        nodes: state.nodes,
+        edges: state.edges,
+        onNodesChange: state.onNodesChange,
+        onEdgesChange: state.onEdgesChange,
+        onConnect: state.onConnect,
+        addNode: state.addNode,
+        setSelectedNodeId: state.setSelectedNodeId,
+      }))
+    );
+  const { screenToFlowPosition } = useReactFlow();
+
+  const onDragOver = useCallback((event: DragEvent) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const onDrop = useCallback(
+    (event: DragEvent) => {
+      event.preventDefault();
+
+      const type = event.dataTransfer.getData("application/reactflow");
+
+      // Check if the dropped element is valid
+      if (typeof type === "undefined" || !type) {
+        return;
+      }
+
+      // Get the position where the node was dropped
+      const position = screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
+
+      // This is the new, correct node
+      const newNode: Node = {
+        id: `${type}-${crypto.randomUUID()}`, // Use crypto.randomUUID for better IDs
+        type, // This is the custom type (e.g., "onchain-event")
+        position,
+        data: {}, // Data will be configured in the ConfigPanel
+      };
+
+      addNode(newNode); // Add the new node to the store
+    },
+    [screenToFlowPosition, addNode],
+  );
+
+  return (
+    <div className="flex-1 h-full" ref={reactFlowWrapper}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        nodeTypes={nodeTypes} // Pass the custom node types
+        onNodeClick={(_, node) => setSelectedNodeId(node.id)} // Set selected node on click
+        onPaneClick={() => setSelectedNodeId(null)} // Clear selection on pane click
+        fitView
+      >
+        <Controls />
+        <MiniMap />
+        <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
+      </ReactFlow>
+    </div>
+  );
+};
+
+export default Canvas;
