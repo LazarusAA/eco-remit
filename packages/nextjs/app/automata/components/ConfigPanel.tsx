@@ -5,12 +5,13 @@ import { useShallow } from "zustand/react/shallow";
 import { useAutomataStore } from "../store";
 
 const ConfigPanel = () => {
-  const { nodes, selectedNodeId, setSelectedNodeId, openDataMapModal } = useAutomataStore(
+  const { nodes, selectedNodeId, setSelectedNodeId, openDataMapModal, updateNodeData } = useAutomataStore(
     useShallow((state) => ({
       nodes: state.nodes,
       selectedNodeId: state.selectedNodeId,
       setSelectedNodeId: state.setSelectedNodeId,
       openDataMapModal: state.openDataMapModal,
+      updateNodeData: state.updateNodeData,
     }))
   );
 
@@ -34,13 +35,33 @@ const ConfigPanel = () => {
               <label className="label">
                 <span className="label-text">Contract Address</span>
               </label>
-              <input type="text" placeholder="0x..." className="input input-bordered" />
+              <input 
+                type="text" 
+                placeholder="0x..." 
+                className="input input-bordered"
+                value={selectedNode.data.contractAddress || ''}
+                onChange={(e) =>
+                  updateNodeData(selectedNode.id, {
+                    ...selectedNode.data,
+                    contractAddress: e.target.value,
+                  })
+                }
+              />
             </div>
             <div className="form-control mt-2">
               <label className="label">
                 <span className="label-text">Event to Watch</span>
               </label>
-              <select className="select select-bordered" defaultValue="">
+              <select 
+                className="select select-bordered"
+                value={selectedNode.data.eventName || ''}
+                onChange={(e) =>
+                  updateNodeData(selectedNode.id, {
+                    ...selectedNode.data,
+                    eventName: e.target.value,
+                  })
+                }
+              >
                 <option value="" disabled>
                   Select event
                 </option>
@@ -62,6 +83,13 @@ const ConfigPanel = () => {
               <textarea
                 className="textarea textarea-bordered h-24 rounded-lg"
                 placeholder="e.g., Is this address a new user?"
+                value={selectedNode.data.prompt || ''}
+                onChange={(e) =>
+                  updateNodeData(selectedNode.id, {
+                    ...selectedNode.data,
+                    prompt: e.target.value,
+                  })
+                }
               ></textarea>
             </div>
           </div>
@@ -96,7 +124,18 @@ const ConfigPanel = () => {
               <label className="label">
                 <span className="label-text">Amount</span>
               </label>
-              <input type="number" placeholder="10" className="input input-bordered" />
+              <input 
+                type="number" 
+                placeholder="10" 
+                className="input input-bordered"
+                value={selectedNode.data.amount || ''}
+                onChange={(e) =>
+                  updateNodeData(selectedNode.id, {
+                    ...selectedNode.data,
+                    amount: e.target.value,
+                  })
+                }
+              />
             </div>
           </div>
         );

@@ -34,7 +34,15 @@ export default function DataMapModal() {
     // The path would be constructed, e.g., '{{trigger-id.data.to}}'
     // For this demo, we just set the example path
     const examplePath = `{{Trigger.data.${path}}}`;
-    updateNodeData(nodeId, field, examplePath);
+    
+    // Find the node and update its data
+    const node = nodes.find(n => n.id === nodeId);
+    if (node) {
+      updateNodeData(nodeId, {
+        ...node.data,
+        [field]: examplePath,
+      });
+    }
     closeDataMapModal();
   };
 
