@@ -157,7 +157,7 @@ const Home: NextPage = () => {
               <Link href="/automata" className="hover:text-red-500 transition-colors">
                 Launch App
               </Link>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">
+              <a href="hhttps://github.com/LazarusAA/avalanche-automata" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">
                 GitHub
               </a>
             </div>
