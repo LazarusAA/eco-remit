@@ -17,7 +17,7 @@ export function WdkConnectButton() {
   // Not initialized - show prompt to connect
   if (!isInitialized) {
     return (
-      <a href="/wallet" className="btn btn-primary btn-sm">
+      <a href="/wallet" className="btn btn-primary btn-md">
         Connect Wallet
       </a>
     );
@@ -26,7 +26,7 @@ export function WdkConnectButton() {
   // Locked state
   if (isLocked) {
     return (
-      <a href="/wallet" className="btn btn-warning btn-sm">
+      <a href="/wallet" className="btn btn-warning btn-md">
         🔒 Unlock Wallet
       </a>
     );
@@ -34,7 +34,7 @@ export function WdkConnectButton() {
 
   // Connected state - show address only
   return (
-    <a href="/wallet" className="btn btn-sm btn-ghost">
+    <a href="/wallet" className="btn btn-md btn-ghost">
       {address && <Address address={address as `0x${string}`} disableAddressLink={true} />}
     </a>
   );

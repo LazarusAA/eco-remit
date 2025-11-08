@@ -157,9 +157,9 @@ const OnChainEventNode = ({ id, data, isConnectable }: NodeProps) => {
   }, [provider, contractAddress, eventName, executeWorkflow, id, isConfigured]);
 
   const nodeClasses = clsx(
-    'card card-compact w-64 bg-base-100 shadow-xl border-2 border-primary',
+    'card card-compact w-64 bg-base-100 shadow-xl border-2 border-base-300',
     {
-      'border-primary': status === 'idle',
+      'border-base-300': status === 'idle',
       'animate-pulse-blue !border-info': status === 'pending',
       'animate-glow-green !border-success': status === 'success_temp',
       'animate-glow-red !border-error': status === 'fail_temp',
@@ -181,7 +181,7 @@ const OnChainEventNode = ({ id, data, isConnectable }: NodeProps) => {
     <div className={nodeClasses}>
       <div className="card-body">
         <div className="flex items-center gap-3">
-          <BoltIcon className="h-6 w-6 text-primary" />
+          <BoltIcon className="h-6 w-6 text-base-content/60" />
           <h2 className="card-title text-sm">On-Chain Event</h2>
         </div>
         <p className="text-xs text-base-content/70">
@@ -198,7 +198,7 @@ const OnChainEventNode = ({ id, data, isConnectable }: NodeProps) => {
           position={Position.Right}
           id="data"
           isConnectable={isConnectable}
-          className="!bg-primary"
+          className="!bg-base-content/40"
         />
       </div>
     </div>

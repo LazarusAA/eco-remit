@@ -9,29 +9,29 @@ const nodeTypes = [
     type: "onchain-event", // This 'type' must match the custom node type
     label: "On-Chain Event",
     icon: BoltIcon,
-    color: "text-primary",
-    bgColor: "bg-primary/10",
+    color: "text-base-content/70",
+    bgColor: "bg-base-300/30",
   },
   {
     type: "ai-decision",
     label: "AI Decision",
     icon: CpuChipIcon,
-    color: "text-secondary",
-    bgColor: "bg-secondary/10",
+    color: "text-base-content/70",
+    bgColor: "bg-base-300/30",
   },
   {
     type: "send-usdt",
     label: "Send USDT",
     icon: BanknotesIcon,
-    color: "text-accent",
-    bgColor: "bg-accent/10",
+    color: "text-base-content/70",
+    bgColor: "bg-base-300/30",
   },
   {
     type: "mint-nft",
     label: "Mint NFT",
     icon: PhotoIcon,
-    color: "text-success",
-    bgColor: "bg-success/10",
+    color: "text-base-content/70",
+    bgColor: "bg-base-300/30",
   },
 ];
 

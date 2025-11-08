@@ -31,8 +31,8 @@ export const HeaderMenuLinks = () => {
               href={href}
               passHref
               className={`${
-                isActive ? "bg-secondary shadow-md" : ""
-              } hover:bg-secondary hover:shadow-md focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
+                isActive ? "bg-error shadow-md" : ""
+              } hover:bg-error hover:shadow-md focus:!bg-error active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
             >
               {icon}
               <span>{label}</span>
@@ -78,7 +78,7 @@ const NetworkSelector = () => {
   return (
     <details className="dropdown dropdown-end" ref={networkMenuRef}>
       <summary 
-        className="btn btn-sm btn-ghost gap-2 normal-case list-none cursor-pointer"
+        className="btn btn-md btn-ghost gap-2 normal-case list-none cursor-pointer"
         style={{ listStyle: 'none' }}
       >
         <div className={`w-2.5 h-2.5 rounded-full ${networkColor}`} />
@@ -126,7 +126,7 @@ export const Header = () => {
   });
 
   return (
-    <div className="sticky lg:static top-0 navbar bg-base-100 min-h-20 shrink-0 justify-between z-20 shadow-md shadow-secondary px-0 sm:px-2">
+    <div className="sticky lg:static top-0 navbar bg-base-100 min-h-20 shrink-0 justify-between z-20 shadow-md shadow-error px-0 sm:px-2">
       <div className="navbar-start w-auto lg:w-1/2">
         <details className="dropdown" ref={burgerMenuRef}>
           <summary className="ml-1 btn btn-ghost lg:hidden hover:bg-transparent">
@@ -146,7 +146,7 @@ export const Header = () => {
             <Image alt="Automata logo" className="cursor-pointer" fill src="/logo.svg" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold leading-tight text-lg">Avalanche Automata</span>
+            <span className="font-bold leading-tight text-2xl">Avalanche Automata</span>
           </div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">

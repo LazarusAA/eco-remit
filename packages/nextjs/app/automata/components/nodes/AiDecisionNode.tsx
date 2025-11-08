@@ -7,9 +7,9 @@ const AiDecisionNode = ({ data, isConnectable }: NodeProps) => {
   const status = data.status || 'idle';
 
   const nodeClasses = clsx(
-    'card card-compact w-64 bg-base-100 shadow-xl border-2 border-secondary',
+    'card card-compact w-64 bg-base-100 shadow-xl border-2 border-base-300',
     {
-      'border-secondary': status === 'idle',
+      'border-base-300': status === 'idle',
       'animate-pulse-blue !border-info': status === 'pending',
       'animate-glow-green !border-success': status === 'success_temp',
       'animate-glow-red !border-error': status === 'fail_temp',
@@ -31,7 +31,7 @@ const AiDecisionNode = ({ data, isConnectable }: NodeProps) => {
     <div className={nodeClasses}>
       <div className="card-body relative pr-16">
         <div className="flex items-center gap-3 mb-1">
-          <CpuChipIcon className="h-6 w-6 text-secondary" />
+          <CpuChipIcon className="h-6 w-6 text-base-content/60" />
           <h2 className="card-title text-sm">AI Decision</h2>
         </div>
         {data.prompt && (
@@ -48,7 +48,7 @@ const AiDecisionNode = ({ data, isConnectable }: NodeProps) => {
           position={Position.Left}
           id="data"
           isConnectable={isConnectable}
-          className="!bg-secondary"
+          className="!bg-base-content/40"
         />
         {/* Two output handles with labels */}
         <div className="absolute right-0 top-[33%] flex items-center gap-2 translate-x-2 -translate-y-1/2">
